@@ -19,7 +19,7 @@ tmux select-window -t $SESSION:2
 tmux send-keys "roslaunch smarc_worlds pipe_following.launch"
 
 tmux select-window -t $SESSION:3
-tmux send-keys "roslaunch smarc_auvs upload_small_smarc_auv.launch x:=-253.7 y:=23.4 z:=-92.5 pitch:=0.38"
+tmux send-keys "roslaunch smarc_auvs upload_small_smarc_auv.launch x:=-233.6 y:=23.1 z:=-92.5"
 
 tmux select-window -t $SESSION:4
 tmux send-keys "rosrun smarc_keyboard_teleop teleop.py"
