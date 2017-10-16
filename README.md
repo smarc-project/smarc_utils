@@ -19,6 +19,9 @@ For more information on tmux, see http://www.hamvocke.com/blog/a-quick-and-easy-
 
 ## smarc_keyboard_teleop
 
+To use this node, you need to install the `pygame` player.
+Install it with `sudo apt-get install python-pygame`.
+
 Run the node with `rosrun smarc_keyboard_teleop`.
 In the resulting window, you can press `UP`, `DOWN`,`LEFT`, `RIGHT` to steer,
 `w` to start the thruster, and `s` to stop it.
