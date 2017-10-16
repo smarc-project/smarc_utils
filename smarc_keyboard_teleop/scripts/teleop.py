@@ -40,7 +40,7 @@ class TeleopServer(object):
 	header = Header()
 
 	fin_angle = 60
-        thrust_level = 100.
+        thrust_level = 500.
 
 	clock = pygame.time.Clock()
 	while not rospy.is_shutdown():
