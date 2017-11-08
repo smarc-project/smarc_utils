@@ -27,13 +27,13 @@ class TeleopServer(object):
         self.surface = None
         self.bridge = CvBridge()
 
-	thruster = rospy.Publisher('/small_smarc_auv/thrusters/0/input', FloatStamped, queue_size=10)
-	fin0 = rospy.Publisher('/small_smarc_auv/fins/0/input', FloatStamped, queue_size=10)
-	fin1 = rospy.Publisher('/small_smarc_auv/fins/1/input', FloatStamped, queue_size=10)
-	fin2 = rospy.Publisher('/small_smarc_auv/fins/2/input', FloatStamped, queue_size=10)
-	fin3 = rospy.Publisher('/small_smarc_auv/fins/3/input', FloatStamped, queue_size=10)
+	thruster = rospy.Publisher('/example_auv/thrusters/0/input', FloatStamped, queue_size=10)
+	fin0 = rospy.Publisher('/example_auv/fins/0/input', FloatStamped, queue_size=10)
+	fin1 = rospy.Publisher('/example_auv/fins/1/input', FloatStamped, queue_size=10)
+	fin2 = rospy.Publisher('/example_auv/fins/2/input', FloatStamped, queue_size=10)
+	fin3 = rospy.Publisher('/example_auv/fins/3/input', FloatStamped, queue_size=10)
 
-	rospy.Subscriber("/small_smarc_auv/small_smarc_auv/camera_thruster/camera_image", Image, self.callback)
+	rospy.Subscriber("/example_auv/example_auv/camera_thruster/camera_image", Image, self.callback)
 
 	screen = pygame.display.set_mode((200, 200))
 	pygame.display.flip()
