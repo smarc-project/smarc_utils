@@ -6,7 +6,7 @@ tmux -2 new-session -d -s $SESSION
 tmux new-window -t $SESSION:0 -n 'roscore'
 tmux new-window -t $SESSION:1 -n 'rviz'
 tmux new-window -t $SESSION:2 -n 'gazebo'
-tmux new-window -t $SESSION:3 -n 'small_smarc_auv'
+tmux new-window -t $SESSION:3 -n 'example_auv'
 tmux new-window -t $SESSION:4 -n 'keyboard_teleop'
 
 tmux select-window -t $SESSION:0
@@ -19,10 +19,10 @@ tmux select-window -t $SESSION:2
 tmux send-keys "roslaunch smarc_worlds pipe_following.launch"
 
 tmux select-window -t $SESSION:3
-tmux send-keys "roslaunch smarc_auvs upload_small_smarc_auv.launch x:=244.3 y:=-23.4 z:=-93.0 yaw:=3.0"
+tmux send-keys "roslaunch smarc_auvs upload_example_auv.launch x:=244.3 y:=-23.4 z:=-93.0 yaw:=3.0"
 
 tmux select-window -t $SESSION:4
-tmux send-keys "rosrun smarc_keyboard_teleop small_auv_teleop.py"
+tmux send-keys "rosrun smarc_keyboard_teleop example_auv_teleop.py"
 
 # Set default window
 tmux select-window -t $SESSION:0
