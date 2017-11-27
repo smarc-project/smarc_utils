@@ -10,11 +10,13 @@
 	<arg name="yaw" value="3.0"/>
 
 	<!-- Launch LoLo AUV -->
-	<include file="$(find smarc_auvs)/models/large_smarc_auv/launch/upload_large_smarc_auv.launch" pass_all_args="true"/>
+	<include file="$(find smarc_auvs)/models/lolo_auv/launch/upload_lolo_auv.launch" pass_all_args="true"/>
 
 	<!-- Keyboard controller -->
-	<node pkg="smarc_keyboard_teleop" type="large_auv_teleop.py" name="large_auv_teleop" output="screen"/>
+	<node pkg="smarc_keyboard_teleop" type="lolo_auv_teleop.py" name="lolo_auv_teleop" output="screen"/>
 	
 	<node pkg="rviz" type="rviz" name="rviz" args="-d $(find smarc_bringup)/rviz/pipe_following.rviz"/>
+
+	<include file="$(find ekf_lolo_auv)/launch/ekf_launch.launch"/>
 
 </launch>
