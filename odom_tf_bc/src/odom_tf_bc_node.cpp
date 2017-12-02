@@ -8,18 +8,17 @@ class OdomTfBC{
 
 public:
     OdomTfBC(ros::NodeHandle &nh): nh_(&nh){
-        std::string gt_topic;
         start_bc_ = false;
 
-        nh_->param<std::string>((ros::this_node::getName() + "/gt_topic"), gt_topic, "/gt_pose");
+        nh_->param<std::string>((ros::this_node::getName() + "/gt_topic"), gt_topic_, "/pose_gt");
         nh_->param<std::string>((ros::this_node::getName() + "/parent_frame"), parent_frame_, "/world");
         nh_->param<std::string>((ros::this_node::getName() + "/child_frame"), child_frame_, "/odom");
-        ros::Subscriber initial_pose_subs = nh.subscribe(gt_topic, 1, &OdomTfBC::getInitialPoseCB, this);
+        initial_pose_subs_ = nh_->subscribe(gt_topic_, 1, &OdomTfBC::getInitialPoseCB, this);
     }
 
     void broadcastOdomTf(){
         ros::Rate rate(30.0);
-        while (nh_->ok()){
+        while (ros::ok()){
             if(start_bc_){
                 transform_.setOrigin(tf::Vector3(
                                          initial_odom_ps_->pose.pose.position.x,
@@ -32,6 +31,7 @@ public:
                 br_.sendTransform(tf::StampedTransform(transform_, ros::Time::now(), parent_frame_, child_frame_));
             }
             else{
+                ROS_DEBUG("Tf world --> odom not being broadcasted");
                 ros::spinOnce();
             }
             rate.sleep();
@@ -39,7 +39,9 @@ public:
     }
 
     void getInitialPoseCB(const nav_msgs::OdometryPtr &gt_pose){
-        initial_odom_ps_ = gt_pose;
+        if(start_bc_ == false){
+            initial_odom_ps_ = gt_pose;
+        }
         start_bc_ = true;
     }
 
@@ -51,6 +53,8 @@ private:
     ros::NodeHandle* nh_;
     tf::TransformBroadcaster br_;
     tf::Transform transform_;
+    std::string gt_topic_;
+    ros::Subscriber initial_pose_subs_;
 };
 
 
