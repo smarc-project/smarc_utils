@@ -18,17 +18,21 @@ public:
 
     void broadcastOdomTf(){
         ros::Rate rate(30.0);
+        tf::TransformBroadcaster br;
+        tf::Transform transform;
+
         while (ros::ok()){
             if(start_bc_){
-                transform_.setOrigin(tf::Vector3(
+                // Construct transform world --> odom
+                transform.setOrigin(tf::Vector3(
                                          initial_odom_ps_->pose.pose.position.x,
                                          initial_odom_ps_->pose.pose.position.y,
                                          initial_odom_ps_->pose.pose.position.z));
-                transform_.setRotation(tf::Quaternion(initial_odom_ps_->pose.pose.orientation.x,
-                                                      initial_odom_ps_->pose.pose.orientation.y,
-                                                      initial_odom_ps_->pose.pose.orientation.z,
-                                                      initial_odom_ps_->pose.pose.orientation.w));
-                br_.sendTransform(tf::StampedTransform(transform_, ros::Time::now(), parent_frame_, child_frame_));
+                tf::Quaternion q_auv;
+                tf::quaternionMsgToTF(initial_odom_ps_->pose.pose.orientation, q_auv);
+                transform.setRotation(q_auv);
+                // Broadcast
+                br.sendTransform(tf::StampedTransform(transform, ros::Time::now(), parent_frame_, child_frame_));
             }
             else{
                 ROS_DEBUG("Tf world --> odom not being broadcasted");
@@ -51,8 +55,6 @@ private:
     std::string child_frame_;
     nav_msgs::OdometryPtr initial_odom_ps_;
     ros::NodeHandle* nh_;
-    tf::TransformBroadcaster br_;
-    tf::Transform transform_;
     std::string gt_topic_;
     ros::Subscriber initial_pose_subs_;
 };
@@ -65,7 +67,6 @@ int main(int argc, char** argv){
 
   OdomTfBC world_odom_bc = OdomTfBC(nh);
   world_odom_bc.broadcastOdomTf();
-
 
   return 0;
 }
