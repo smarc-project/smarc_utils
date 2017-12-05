@@ -8,6 +8,7 @@ Panels:
         - /Status1
         - /TF1
         - /Odometry1
+        - /Odometry1/Shape1
       Splitter Ratio: 0.5
     Tree Height: 565
   - Class: rviz/Selection
@@ -63,47 +64,53 @@ Visualization Manager:
       Frame Timeout: 15
       Frames:
         All Enabled: true
-        large_smarc_auv/back_fin0:
+        lolo_auv/back_fin0:
           Value: true
-        large_smarc_auv/base_footprint:
+        lolo_auv/base_link:
           Value: true
-        large_smarc_auv/base_link:
+        lolo_auv/camera_link:
           Value: true
-        large_smarc_auv/base_stabilized:
+        lolo_auv/camera_link_optical:
           Value: true
-        large_smarc_auv/camera_thruster_link:
+        lolo_auv/camera_thruster_link:
           Value: true
-        large_smarc_auv/camera_thruster_link_optical:
+        lolo_auv/camera_thruster_link_optical:
           Value: true
-        large_smarc_auv/dvl_link:
+        lolo_auv/dvl_link:
           Value: true
-        large_smarc_auv/dvl_sonar0_link:
+        lolo_auv/dvl_sonar0_link:
           Value: true
-        large_smarc_auv/dvl_sonar1_link:
+        lolo_auv/dvl_sonar1_link:
           Value: true
-        large_smarc_auv/dvl_sonar2_link:
+        lolo_auv/dvl_sonar2_link:
           Value: true
-        large_smarc_auv/dvl_sonar3_link:
+        lolo_auv/dvl_sonar3_link:
           Value: true
-        large_smarc_auv/fin0:
+        lolo_auv/fin0:
           Value: true
-        large_smarc_auv/fin1:
+        lolo_auv/fin1:
           Value: true
-        large_smarc_auv/fin2:
+        lolo_auv/fin2:
           Value: true
-        large_smarc_auv/fin3:
+        lolo_auv/fin3:
           Value: true
-        large_smarc_auv/fin4:
+        lolo_auv/fin4:
           Value: true
-        large_smarc_auv/fin5:
+        lolo_auv/fin5:
           Value: true
-        large_smarc_auv/imu_link:
+        lolo_auv/imu_link:
           Value: true
-        large_smarc_auv/pose_sensor_link:
+        lolo_auv/pose_sensor_link:
           Value: true
-        large_smarc_auv/thruster_left:
+        lolo_auv/sonarleft_link:
           Value: true
-        large_smarc_auv/thruster_right:
+        lolo_auv/sonarright_link:
+          Value: true
+        lolo_auv/thruster_left:
+          Value: true
+        lolo_auv/thruster_right:
+          Value: true
+        odom:
           Value: true
         world:
           Value: true
@@ -114,43 +121,49 @@ Visualization Manager:
       Show Names: false
       Tree:
         world:
-          large_smarc_auv/base_footprint:
-            large_smarc_auv/base_stabilized:
-              large_smarc_auv/base_link:
-                large_smarc_auv/back_fin0:
+          odom:
+            lolo_auv/base_link:
+              lolo_auv/back_fin0:
+                {}
+              lolo_auv/camera_link:
+                lolo_auv/camera_link_optical:
                   {}
-                large_smarc_auv/camera_thruster_link:
-                  large_smarc_auv/camera_thruster_link_optical:
-                    {}
-                large_smarc_auv/dvl_link:
-                  large_smarc_auv/dvl_sonar0_link:
-                    {}
-                  large_smarc_auv/dvl_sonar1_link:
-                    {}
-                  large_smarc_auv/dvl_sonar2_link:
-                    {}
-                  large_smarc_auv/dvl_sonar3_link:
-                    {}
-                large_smarc_auv/fin0:
+              lolo_auv/camera_thruster_link:
+                lolo_auv/camera_thruster_link_optical:
                   {}
-                large_smarc_auv/fin1:
+              lolo_auv/dvl_link:
+                lolo_auv/dvl_sonar0_link:
                   {}
-                large_smarc_auv/fin2:
+                lolo_auv/dvl_sonar1_link:
                   {}
-                large_smarc_auv/fin3:
+                lolo_auv/dvl_sonar2_link:
                   {}
-                large_smarc_auv/fin4:
+                lolo_auv/dvl_sonar3_link:
                   {}
-                large_smarc_auv/fin5:
-                  {}
-                large_smarc_auv/imu_link:
-                  {}
-                large_smarc_auv/pose_sensor_link:
-                  {}
-                large_smarc_auv/thruster_left:
-                  {}
-                large_smarc_auv/thruster_right:
-                  {}
+              lolo_auv/fin0:
+                {}
+              lolo_auv/fin1:
+                {}
+              lolo_auv/fin2:
+                {}
+              lolo_auv/fin3:
+                {}
+              lolo_auv/fin4:
+                {}
+              lolo_auv/fin5:
+                {}
+              lolo_auv/imu_link:
+                {}
+              lolo_auv/pose_sensor_link:
+                {}
+              lolo_auv/sonarleft_link:
+                {}
+              lolo_auv/sonarright_link:
+                {}
+              lolo_auv/thruster_left:
+                {}
+              lolo_auv/thruster_right:
+                {}
       Update Interval: 0
       Value: true
     - Angle Tolerance: 0.100000001
@@ -171,26 +184,26 @@ Visualization Manager:
           Value: true
         Value: true
       Enabled: true
-      Keep: 5
+      Keep: 1
       Name: Odometry
       Position Tolerance: 0.100000001
       Shape:
         Alpha: 1
         Axes Length: 1
         Axes Radius: 0.100000001
-        Color: 255; 25; 0
+        Color: 0; 170; 0
         Head Length: 0.300000012
         Head Radius: 0.100000001
         Shaft Length: 1
         Shaft Radius: 0.0500000007
         Value: Arrow
-      Topic: /large_smarc_auv/pose_gt
+      Topic: /lolo_auv/ekf_odom
       Unreliable: false
       Value: true
     - Class: rviz/Camera
       Enabled: true
       Image Rendering: background and overlay
-      Image Topic: /large_smarc_auv/large_smarc_auv/camera_thruster/camera_image
+      Image Topic: /lolo_auv/lolo_auv/camera/camera_image
       Name: Camera
       Overlay Alpha: 0.5
       Queue Size: 2
@@ -204,6 +217,40 @@ Visualization Manager:
         TF: true
         Value: true
       Zoom Factor: 1
+    - Angle Tolerance: 0.100000001
+      Class: rviz/Odometry
+      Covariance:
+        Orientation:
+          Alpha: 0.5
+          Color: 255; 255; 127
+          Color Style: Unique
+          Frame: Local
+          Offset: 1
+          Scale: 1
+          Value: true
+        Position:
+          Alpha: 0.300000012
+          Color: 204; 51; 204
+          Scale: 1
+          Value: true
+        Value: true
+      Enabled: true
+      Keep: 1
+      Name: Odometry
+      Position Tolerance: 0.100000001
+      Shape:
+        Alpha: 1
+        Axes Length: 1
+        Axes Radius: 0.100000001
+        Color: 255; 25; 0
+        Head Length: 0.300000012
+        Head Radius: 0.100000001
+        Shaft Length: 1
+        Shaft Radius: 0.0500000007
+        Value: Arrow
+      Topic: /lolo_auv/pose_gt
+      Unreliable: false
+      Value: true
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
@@ -228,25 +275,25 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 10
+      Distance: 13.6368275
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.0599999987
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: 0
-        Y: 0
-        Z: 0
+        X: -0.239856362
+        Y: -0.0906860232
+        Z: 1.03244531
       Focal Shape Fixed Size: false
       Focal Shape Size: 0.0500000007
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.00999999978
-      Pitch: 0.280398458
-      Target Frame: large_smarc_auv/dvl_link
+      Pitch: 1.34479654
+      Target Frame: lolo_auv/base_link
       Value: Orbit (rviz)
-      Yaw: 0.750398278
+      Yaw: 6.1485877
     Saved: ~
 Window Geometry:
   Camera:
