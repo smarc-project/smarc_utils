@@ -9,6 +9,8 @@ Panels:
         - /TF1
         - /Odometry1
         - /Odometry1/Shape1
+        - /LaserScan1
+        - /LaserScan2
       Splitter Ratio: 0.5
     Tree Height: 565
   - Class: rviz/Selection
@@ -102,6 +104,10 @@ Visualization Manager:
           Value: true
         lolo_auv/pose_sensor_link:
           Value: true
+        lolo_auv/pressure_link:
+          Value: true
+        lolo_auv/rpt_link:
+          Value: true
         lolo_auv/sonarleft_link:
           Value: true
         lolo_auv/sonarright_link:
@@ -155,6 +161,10 @@ Visualization Manager:
               lolo_auv/imu_link:
                 {}
               lolo_auv/pose_sensor_link:
+                {}
+              lolo_auv/pressure_link:
+                {}
+              lolo_auv/rpt_link:
                 {}
               lolo_auv/sonarleft_link:
                 {}
@@ -212,6 +222,7 @@ Visualization Manager:
       Value: true
       Visibility:
         Grid: true
+        LaserScan: true
         MarkerArray: true
         Odometry: true
         TF: true
@@ -251,6 +262,66 @@ Visualization Manager:
       Topic: /lolo_auv/pose_gt
       Unreliable: false
       Value: true
+    - Alpha: 1
+      Autocompute Intensity Bounds: true
+      Autocompute Value Bounds:
+        Max Value: 10
+        Min Value: -10
+        Value: true
+      Axis: Z
+      Channel Name: intensity
+      Class: rviz/LaserScan
+      Color: 255; 255; 255
+      Color Transformer: Intensity
+      Decay Time: 10
+      Enabled: true
+      Invert Rainbow: false
+      Max Color: 255; 255; 255
+      Max Intensity: 219
+      Min Color: 0; 0; 0
+      Min Intensity: 170
+      Name: LaserScan
+      Position Transformer: XYZ
+      Queue Size: 10
+      Selectable: true
+      Size (Pixels): 3
+      Size (m): 0.0500000007
+      Style: Flat Squares
+      Topic: /lolo_auv/sss_left
+      Unreliable: false
+      Use Fixed Frame: true
+      Use rainbow: true
+      Value: true
+    - Alpha: 1
+      Autocompute Intensity Bounds: true
+      Autocompute Value Bounds:
+        Max Value: 10
+        Min Value: -10
+        Value: true
+      Axis: Z
+      Channel Name: intensity
+      Class: rviz/LaserScan
+      Color: 255; 255; 255
+      Color Transformer: Intensity
+      Decay Time: 10
+      Enabled: true
+      Invert Rainbow: false
+      Max Color: 255; 255; 255
+      Max Intensity: 190
+      Min Color: 0; 0; 0
+      Min Intensity: 170
+      Name: LaserScan
+      Position Transformer: XYZ
+      Queue Size: 1
+      Selectable: true
+      Size (Pixels): 3
+      Size (m): 0.0500000007
+      Style: Flat Squares
+      Topic: /lolo_auv/sss_right
+      Unreliable: false
+      Use Fixed Frame: true
+      Use rainbow: true
+      Value: true
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
@@ -275,7 +346,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 13.6368275
+      Distance: 19.7951889
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.0599999987
         Stereo Focal Distance: 1
@@ -290,10 +361,10 @@ Visualization Manager:
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.00999999978
-      Pitch: 1.34479654
+      Pitch: 0.499797523
       Target Frame: lolo_auv/base_link
       Value: Orbit (rviz)
-      Yaw: 6.1485877
+      Yaw: 0.360401213
     Saved: ~
 Window Geometry:
   Camera:
