@@ -4,7 +4,7 @@
 	<include file="$(find smarc_worlds)/launch/ekf_localization_tests.launch"/>
 
 	<!-- Initial position of the AUV -->
-	<arg name="x" value="200.0"/>
+	<arg name="x" value="100.0"/>
 	<arg name="y" value="-20.0"/>
 	<arg name="z" value="-90.0"/>
 	<arg name="yaw" value="3.14159"/>
