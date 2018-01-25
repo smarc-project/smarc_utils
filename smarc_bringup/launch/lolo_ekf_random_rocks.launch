@@ -4,13 +4,23 @@
 	<include file="$(find smarc_worlds)/launch/ekf_localization_tests.launch"/>
 
 	<!-- Initial position of the AUV -->
-	<arg name="x" value="100.0"/>
-	<arg name="y" value="-20.0"/>
+	<arg name="x" value="0.0"/>
+	<arg name="y" value="10.0"/>
 	<arg name="z" value="-90.0"/>
-	<arg name="yaw" value="3.14159"/>
+	<arg name="yaw" value="0.0"/>
 
 	<!-- Launch LoLo AUV -->
 	<include file="$(find smarc_auvs)/models/lolo_auv/launch/upload_lolo_auv.launch" pass_all_args="true"/>
+
+	<!-- Publishes: - Ground truth pose in odom frame
+					- tf world to odom based on initial pose of the AUV -->
+    <node pkg="odom_tf_bc" name="odom_tf_bc_node" type="odom_tf_bc_node" output="screen">
+	      <param name="gt_topic" value="/lolo_auv/pose_gt"/>
+	      <param name="parent_frame" value="world"/>
+	      <param name="child_frame" value="odom"/>
+		  <!-- <param name="base_link" value="world"/> -->
+	      <param name="gt_odom_topic" value="gt_in_odom"/>
+    </node>
 
 	<!-- Keyboard controller -->
 	<node pkg="smarc_keyboard_teleop" type="lolo_auv_teleop.py" name="lolo_auv_teleop" output="screen"/>
