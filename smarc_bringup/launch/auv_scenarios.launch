@@ -3,7 +3,7 @@
 
 	<!-- Mode flags -->
 	<arg name="auv_name" default="lolo_auv"/>
-	<arg name="navigation_on" value="true"/>
+	<arg name="navigation_on" value="false"/>
 	<arg name="gazebo_env" value="ekf_localization_tests"/>
 
 	<!-- Initial position of the AUV -->
@@ -15,7 +15,7 @@
 	<!-- Underwater scenario for Gazebo -->
 	<include file="$(find smarc_worlds)/launch/$(arg gazebo_env).launch"/>
 
-	<!-- Launch LoLo AUV -->
+	<!-- Launch AUV -->
 	<include file="$(find smarc_auvs)/models/$(arg auv_name)/launch/upload_$(arg auv_name).launch" pass_all_args="true"/>
 
 	<!-- Publishes: - tf world to odom based on initial pose of the AUV 
@@ -27,7 +27,6 @@
 		<param name="child_frame" value="odom"/>
 		<param name="base_frame" value="$(arg auv_name)/base_link"/>
 		<param name="bc_odom_tf" value="$(arg navigation_on)"/>
-		<!-- <param name="base_link" value="world"/> -->
 		<param name="gt_odom_topic" value="gt_in_odom"/>
     </node>
 
@@ -39,6 +38,6 @@
   	<include if="$(arg navigation_on)" file="$(find auv_ekf_localization)/launch/ekf_localization.launch">
 	</include>
 
-	<node pkg="rviz" type="rviz" name="rviz" args="-d $(find smarc_bringup)/rviz/pipe_following.rviz"/>
+	<node pkg="rviz" type="rviz" name="rviz" args="-d $(find smarc_bringup)/rviz/auv_rviz.rviz"/>
 
 </launch>
