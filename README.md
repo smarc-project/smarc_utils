@@ -33,6 +33,9 @@ In the resulting window, you can press `UP`, `DOWN`,`LEFT`, `RIGHT` to steer,
 
 This node broadcasts the tf world --> odom (see REP105 ROS), with the odom frame being instantiated in the pose where the AUV is initialized.
 
+An example of the current, simplified tf tree can be seen below
+![alt tag](https://github.com/smarc_utils/docs/images/tf_tree.pdf)
+
 It also publishes the ground truth pose of the AUV provided by Gazebo and referred to the odom reference frame.
 
 If there isn't an odometry provider, it will broadcast the odom --> base_link transform based on the pose in Gazebo (set in the smarc_bringup launch files).
