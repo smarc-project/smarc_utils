@@ -38,6 +38,4 @@
   	<include if="$(arg navigation_on)" file="$(find auv_ekf_localization)/launch/ekf_localization.launch">
 	</include>
 
-	<node pkg="rviz" type="rviz" name="rviz" args="-d $(find smarc_bringup)/rviz/auv_rviz.rviz"/>
-
 </launch>

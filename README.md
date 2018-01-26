@@ -34,7 +34,7 @@ In the resulting window, you can press `UP`, `DOWN`,`LEFT`, `RIGHT` to steer,
 This node broadcasts the tf world --> odom (see REP105 ROS), with the odom frame being instantiated in the pose where the AUV is initialized.
 
 An example of the current, simplified tf tree can be seen below
-![alt tag](https://github.com/ignaciotb/smarc_utils/blob/working_branch/docs/images/tf_tree.pdf)
+![alt Text](https://github.com/ignaciotb/smarc_utils/blob/working_branch/docs/images/tf_tree.pdf)
 
 It also publishes the ground truth pose of the AUV provided by Gazebo and referred to the odom reference frame.
 
