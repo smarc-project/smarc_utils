@@ -4,6 +4,12 @@
 #include <nav_msgs/Odometry.h>
 
 
+/**
+ * @brief The OdomTfBC class
+ * This node broadcast the tf world_odom and
+ * publishes the AUV ground truth pose from Gazebo
+ */
+
 class OdomTfBC{
 
 public:
@@ -15,7 +21,8 @@ public:
         nh_->param<std::string>((ros::this_node::getName() + "/child_frame"), child_frame_, "/odom");
         nh_->param<std::string>((ros::this_node::getName() + "/base_frame"), base_frame_, "/base_link");
         nh_->param<std::string>((ros::this_node::getName() + "/gt_odom_topic"), gt_in_odom_tp_, "/gt_in_odom");
-        
+        nh_->param<bool>((ros::this_node::getName() + "/bc_odom_tf"), active_nav_flag_, "false");
+
         initial_pose_subs_ = nh_->subscribe(gt_topic_, 1, &OdomTfBC::getInitialPoseCB, this);
         gt_odom_pub_ = nh_->advertise<nav_msgs::Odometry>(gt_in_odom_tp_, 10);
     }
@@ -28,7 +35,8 @@ public:
         nav_msgs::OdometryPtr gt_msg;
         geometry_msgs::Pose gt_in_odom;
         tf::Pose gt_world;
-                
+        nav_msgs::Odometry gt_in_odom_msg;
+
         while (ros::ok()){
             ros::spinOnce();
             if(start_bc_){
@@ -54,12 +62,24 @@ public:
                 tf::Pose gt_odom =  tf_world_odom.inverse() * gt_world;
                 tf::poseTFToMsg(gt_odom, gt_in_odom);
 
-                nav_msgs::Odometry gt_in_odom_msg;
                 gt_in_odom_msg.header.stamp = gt_msg->header.stamp;
                 gt_in_odom_msg.header.frame_id = child_frame_;
                 gt_in_odom_msg.child_frame_id = "/lolo_auv/base_link";
                 gt_in_odom_msg.pose.pose = gt_in_odom;
                 gt_odom_pub_.publish(gt_in_odom_msg);
+
+                // If no active navigation nodes, broadcast tf odom --> base_link
+                if(!active_nav_flag_){
+                    geometry_msgs::TransformStamped odom_tf;
+                    odom_tf.header.stamp = gt_msg->header.stamp;
+                    odom_tf.header.frame_id = child_frame_;
+                    odom_tf.child_frame_id = "/lolo_auv/base_link";
+                    odom_tf.transform.translation.x = gt_in_odom.position.x;
+                    odom_tf.transform.translation.y = gt_in_odom.position.y;
+                    odom_tf.transform.translation.z = gt_in_odom.position.z;
+                    odom_tf.transform.rotation = gt_in_odom.orientation;
+                    br.sendTransform(odom_tf);
+                }
             }
             else{
                 ROS_DEBUG("Tf world --> odom not being broadcasted");
@@ -85,6 +105,7 @@ public:
 
 private:
     bool start_bc_;
+    bool active_nav_flag_;
     std::string parent_frame_;
     std::string child_frame_;
     std::string gt_in_odom_tp_;
