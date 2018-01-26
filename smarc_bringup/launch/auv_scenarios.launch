@@ -1,6 +1,6 @@
 <launch>
 
-	<!-- Underwater pipeline scenario for Gazebo -->
+	<!-- Underwater scenario for Gazebo -->
 	<include file="$(find smarc_worlds)/launch/ekf_localization_tests.launch"/>
 
 	<!-- Mode flags -->
@@ -32,7 +32,7 @@
 	<node pkg="smarc_keyboard_teleop" type="lolo_auv_teleop.py" name="lolo_auv_teleop" output="screen"/>
 	
 	<!-- Navigation components -->
-  	<include file="$(find ekf_lolo_auv)/launch/lolo_auv_ekf.launch">
+  	<include file="$(find auv_ekf_localization)/launch/ekf_localization.launch">
   		<arg name="run_navigation" value="$(arg navigation_on)"/>
 	</include>
 
