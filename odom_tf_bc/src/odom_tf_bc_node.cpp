@@ -64,7 +64,7 @@ public:
 
                 gt_in_odom_msg.header.stamp = gt_msg->header.stamp;
                 gt_in_odom_msg.header.frame_id = child_frame_;
-                gt_in_odom_msg.child_frame_id = "/lolo_auv/base_link";
+                gt_in_odom_msg.child_frame_id = base_frame_;
                 gt_in_odom_msg.pose.pose = gt_in_odom;
                 gt_odom_pub_.publish(gt_in_odom_msg);
 
@@ -73,7 +73,7 @@ public:
                     geometry_msgs::TransformStamped odom_tf;
                     odom_tf.header.stamp = gt_msg->header.stamp;
                     odom_tf.header.frame_id = child_frame_;
-                    odom_tf.child_frame_id = "/lolo_auv/base_link";
+                    odom_tf.child_frame_id = base_frame_;
                     odom_tf.transform.translation.x = gt_in_odom.position.x;
                     odom_tf.transform.translation.y = gt_in_odom.position.y;
                     odom_tf.transform.translation.z = gt_in_odom.position.z;
