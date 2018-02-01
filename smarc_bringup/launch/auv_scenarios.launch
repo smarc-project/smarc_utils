@@ -2,21 +2,28 @@
 
 
 	<!-- Mode flags -->
-	<arg name="namespace" default="sam_auv"/>
-	<arg name="navigation_on" value="true"/>
-	<arg name="gazebo_env" value="random_rocks"/>
+	<arg name="namespace" default="lolo_auv"/>
+	<arg name="navigation_on" default="true"/>
+	<arg name="gazebo_env" default="random_rocks"/>
 
 	<!-- Initial position of the AUV -->
-	<arg name="x" value="0.0"/>
-	<arg name="y" value="10.0"/>
-	<arg name="z" value="-30.0"/>
-	<arg name="yaw" value="0.0"/>
+	<arg name="x" default="0.0"/>
+	<arg name="y" default="10.0"/>
+	<arg name="z" default="-30.0"/>
+	<arg name="yaw" default="0.0"/>
 	
 	<!-- Underwater scenario for Gazebo -->
 	<include file="$(find smarc_worlds)/launch/$(arg gazebo_env).launch"/>
 
 	<!-- Launch AUV -->
-	<include file="$(find smarc_auvs)/models/$(arg namespace)/launch/upload_$(arg namespace).launch" pass_all_args="true"/>
+	<include file="$(find smarc_private_auvs)/models/$(arg namespace)/launch/upload_$(arg namespace).launch">
+		<arg name="namespace" value="$(arg namespace)"/>
+		<arg name="x" value="$(arg x)"/>
+		<arg name="y" value="$(arg y)"/>
+		<arg name="z" value="$(arg z)"/>
+		<arg name="yaw" value="$(arg yaw)"/>
+	</include>
+
 
 	<!-- Publishes: - tf world to odom based on initial pose of the AUV 
 					- Ground truth pose in odom frame
