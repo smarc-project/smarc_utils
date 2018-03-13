@@ -34,14 +34,12 @@ public:
         gazebo_msgs::GetWorldProperties world_prop_srv;
         gazebo_msgs::GetModelState landmark_state_srv;
         if(gazebo_client_.call(world_prop_srv)){
-            ROS_INFO("Fetching world from gazebo");
             int id = 0;
             for(auto landmark_name: world_prop_srv.response.model_names){
                 // Get poses of all objects except basic setup
                 if(landmark_name != "lolo_auv" && landmark_name != "ned" && landmark_name != "ocean" && landmark_name != "dummy_laser"){
                     landmark_state_srv.request.model_name = landmark_name;
                     if(landmarks_client_.call(landmark_state_srv)){
-                        ROS_INFO("Fetching landmarks from gazebo");
                         // Test map in world frame. Only for visualization
                         map_world_.push_back(Eigen::Vector4d(id,
                                                             landmark_state_srv.response.pose.position.x,
