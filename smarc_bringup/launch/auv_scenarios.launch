@@ -1,15 +1,14 @@
 <launch>
 
-
 	<!-- Mode flags -->
 	<arg name="namespace" default="lolo_auv"/>
 	<arg name="navigation_on" default="true"/>
 	<arg name="gazebo_env" default="random_rocks"/>
 
 	<!-- Initial position of the AUV -->
-	<arg name="x" default="0.0"/>
-	<arg name="y" default="10.0"/>
-	<arg name="z" default="-30.0"/>
+	<arg name="x" default="-60.0"/>
+	<arg name="y" default="0.0"/>
+	<arg name="z" default="-95.0"/>
 	<arg name="yaw" default="0.0"/>
 	
 	<!-- Underwater scenario for Gazebo -->
@@ -24,7 +23,15 @@
 		<arg name="yaw" value="$(arg yaw)"/>
 	</include>
 
+	<!-- Control components -->
+	<node pkg="smarc_keyboard_teleop" type="$(arg namespace)_teleop.py" name="$(arg namespace)_teleop" output="screen"/>
+	
+	<!-- Navigation components -->
+  	<include if="$(arg navigation_on)" file="$(find auv_ekf_slam)/launch/ekf_slam.launch">
+  		<arg name="namespace" value="$(arg namespace)"/>
+	</include>
 
+	<!-- Utils -->
 	<!-- Publishes: - tf world to odom based on initial pose of the AUV 
 					- Ground truth pose in odom frame
 					- if navigation_on = false, it also publishes the odom tf -->
@@ -37,13 +44,10 @@
 		<param name="gt_odom_topic" value="gt_in_odom"/>
     </node>
 
-
-	<!-- Control components -->
-	<node pkg="smarc_keyboard_teleop" type="$(arg namespace)_teleop.py" name="$(arg namespace)_teleop" output="screen"/>
-	
-	<!-- Navigation components -->
-  	<include if="$(arg navigation_on)" file="$(find auv_ekf_localization)/launch/ekf_localization.launch">
-  		<arg name="namespace" value="$(arg namespace)"/>
-	</include>
+    <!-- Publishes objects populations the Gazebo scenario on RVIZ for visualization -->
+    <node pkg="landmark_visualizer" name="landmark_visualizer_node" type="landmark_visualizer_node" output="screen">
+    	<param name="map_srv" value="/gazebo/get_world_properties"/>
+		<param name="landmarks_srv" value="/gazebo/get_model_state"/>
+    </node>
 
 </launch>
