@@ -5,6 +5,12 @@
 #include "gazebo_msgs/GetWorldProperties.h"
 #include "gazebo_msgs/GetModelState.h"
 #include "visualization_msgs/MarkerArray.h"
+#include <geometry_msgs/PoseArray.h>
+#include "landmark_visualizer/init_map.h"
+#include <geometry_msgs/Point.h>
+#include <geometry_msgs/Pose.h>
+#include <geometry_msgs/Quaternion.h>
+
 
 class LandmarkVisualizer{
 public:
@@ -33,6 +39,10 @@ public:
         // Build map for localization from Gazebo services and transform to odom frame coordinates
         gazebo_msgs::GetWorldProperties world_prop_srv;
         gazebo_msgs::GetModelState landmark_state_srv;
+
+        // Parse beacons names
+        std::string delimiter = "_";
+
         if(gazebo_client_.call(world_prop_srv)){
             int id = 0;
             for(auto landmark_name: world_prop_srv.response.model_names){
@@ -48,18 +58,50 @@ public:
                         id++;
                     }
                 }
+                if(landmark_name.substr(0, landmark_name.find(delimiter)) == "beacon"){
+                    map_artificial_.push_back(Eigen::Vector3d(landmark_state_srv.response.pose.position.x,
+                                                              landmark_state_srv.response.pose.position.y,
+                                                              landmark_state_srv.response.pose.position.z));
+                }
             }
         }
         else{
             ROS_WARN("Couldn't fetch world from Gazebo");
         }
 
+        map_server_ = nh_->advertiseService("/lolo_auv/map_server", &LandmarkVisualizer::map_service_cb, this);
+
         ros::Rate r(10);
         while(ros::ok()){
             createMapMarkers(map_world_);
+            ros::spinOnce();
             r.sleep();
         }
 
+    }
+
+    bool map_service_cb(landmark_visualizer::init_mapRequest &req,
+                        landmark_visualizer::init_mapResponse &res){
+
+//        ROS_INFO_NAMED(node_name_, "Map provider service called");
+        if(req.request_map == true){
+            int i = 0;
+            res.init_map.header.stamp = ros::Time::now();
+            res.init_map.header.frame_id = "world";
+            geometry_msgs::Point point;
+            geometry_msgs::Pose pose;
+            for(auto landmark: map_artificial_){
+                point.x = landmark(0);
+                point.y = landmark(1);
+                point.z = landmark(2);
+                pose.position = point;
+                res.init_map.poses.push_back(pose);
+            }
+            return true;
+        }
+        else{
+            return false;
+        }
     }
 
     void createMapMarkers(std::vector<Eigen::Vector4d> map_world){
@@ -104,9 +146,11 @@ private:
     std::string lm_srv_name_;
     std::string map_srv_name_;
     std::vector<Eigen::Vector4d> map_world_;
+    std::vector<Eigen::Vector3d> map_artificial_;
     ros::ServiceClient gazebo_client_;
     ros::ServiceClient landmarks_client_;
     ros::Publisher vis_pub_;
+    ros::ServiceServer map_server_;
 
 };
 
@@ -115,8 +159,6 @@ int main(int argc, char** argv){
     ros::NodeHandle nh;
 
     LandmarkVisualizer lm_vis(ros::this_node::getName(), nh);
-
-    ros::spin();
 
 }
 
