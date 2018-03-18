@@ -38,7 +38,8 @@
     <node pkg="odom_tf_bc" name="odom_tf_bc_node" type="odom_tf_bc_node" output="screen">
 		<param name="gt_topic" value="/$(arg namespace)/pose_gt"/>
 		<param name="parent_frame" value="world"/>
-		<param name="child_frame" value="odom"/>
+		<param name="odom_frame" value="odom"/>
+		<param name="map_frame" value="map"/>
 		<param name="base_frame" value="$(arg namespace)/base_link"/>
 		<param name="bc_odom_tf" value="$(arg navigation_on)"/>
 		<param name="gt_odom_topic" value="gt_in_odom"/>

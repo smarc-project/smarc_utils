@@ -6,7 +6,7 @@
 
 /**
  * @brief The OdomTfBC class
- * This node broadcast the tf world_odom and
+ * This node broadcast the tf world --> odom and
  * publishes the AUV ground truth pose from Gazebo
  */
 
@@ -18,7 +18,8 @@ public:
 
         nh_->param<std::string>((ros::this_node::getName() + "/gt_topic"), gt_topic_, "/pose_gt");
         nh_->param<std::string>((ros::this_node::getName() + "/parent_frame"), parent_frame_, "/world");
-        nh_->param<std::string>((ros::this_node::getName() + "/child_frame"), child_frame_, "/odom");
+        nh_->param<std::string>((ros::this_node::getName() + "/odom_frame"), odom_frame_, "/odom");
+        nh_->param<std::string>((ros::this_node::getName() + "/map_frame"), map_frame_, "/map");
         nh_->param<std::string>((ros::this_node::getName() + "/base_frame"), base_frame_, "/base_link");
         nh_->param<std::string>((ros::this_node::getName() + "/gt_odom_topic"), gt_in_odom_tp_, "/gt_in_odom");
         nh_->param<bool>((ros::this_node::getName() + "/bc_odom_tf"), active_nav_flag_, "false");
@@ -29,8 +30,10 @@ public:
 
     void broadcastOdomTf(){
         ros::Rate rate(30.0);
-        tf::TransformBroadcaster br;
+        tf::TransformBroadcaster br_odom;
         tf::Transform tf_world_odom;
+        tf::TransformBroadcaster br_map;
+        tf::Transform tf_world_map;
         
         nav_msgs::OdometryPtr gt_msg;
         geometry_msgs::Pose gt_in_odom;
@@ -40,30 +43,38 @@ public:
         while (ros::ok()){
             ros::spinOnce();
             if(start_bc_){
-                // Construct transform world --> odom
-                tf_world_odom.setOrigin(tf::Vector3(
-                                         initial_odom_ps_->pose.pose.position.x,
-                                         initial_odom_ps_->pose.pose.position.y,
-                                         initial_odom_ps_->pose.pose.position.z));
+                // Construct transform world --> map
+                tf_world_map.setOrigin(tf::Vector3(initial_odom_ps_->pose.pose.position.x,
+                                                    initial_odom_ps_->pose.pose.position.y,
+                                                    initial_odom_ps_->pose.pose.position.z));
                 tf::Quaternion q_auv;
                 tf::quaternionMsgToTF(initial_odom_ps_->pose.pose.orientation, q_auv);
-                tf_world_odom.setRotation(q_auv);
+                tf_world_map.setRotation(q_auv);
+
+
                 // Broadcast
-                tf::StampedTransform tf_world_odom_stp = tf::StampedTransform(tf_world_odom, 
-                                                                            ros::Time::now(), 
-                                                                            parent_frame_, 
-                                                                            child_frame_);
-                br.sendTransform(tf_world_odom_stp);
+                tf::StampedTransform tf_world_map_stp = tf::StampedTransform(tf_world_map,
+                                                                              ros::Time::now(),
+                                                                              parent_frame_,
+                                                                              map_frame_);
+                br_map.sendTransform(tf_world_map_stp);
+
+                // Construct transform world --> odom and broadcast (by now, same pose than map frame)
+                tf::StampedTransform tf_world_odom_stp = tf::StampedTransform(tf_world_map,
+                                                                              ros::Time::now(),
+                                                                              map_frame_,
+                                                                              odom_frame_);
+                br_odom.sendTransform(tf_world_odom_stp);
 
                 // Provide ground truth pose in odom frame
                 gt_msg = gt_readings_.back();
 
                 tf::poseMsgToTF(gt_msg->pose.pose, gt_world);
-                tf::Pose gt_odom =  tf_world_odom.inverse() * gt_world;
+                tf::Pose gt_odom =  tf_world_map.inverse() * gt_world;
                 tf::poseTFToMsg(gt_odom, gt_in_odom);
 
                 gt_in_odom_msg.header.stamp = gt_msg->header.stamp;
-                gt_in_odom_msg.header.frame_id = child_frame_;
+                gt_in_odom_msg.header.frame_id = odom_frame_;
                 gt_in_odom_msg.child_frame_id = base_frame_;
                 gt_in_odom_msg.pose.pose = gt_in_odom;
                 gt_odom_pub_.publish(gt_in_odom_msg);
@@ -72,13 +83,13 @@ public:
                 if(!active_nav_flag_){
                     geometry_msgs::TransformStamped odom_tf;
                     odom_tf.header.stamp = gt_msg->header.stamp;
-                    odom_tf.header.frame_id = child_frame_;
+                    odom_tf.header.frame_id = odom_frame_;
                     odom_tf.child_frame_id = base_frame_;
                     odom_tf.transform.translation.x = gt_in_odom.position.x;
                     odom_tf.transform.translation.y = gt_in_odom.position.y;
                     odom_tf.transform.translation.z = gt_in_odom.position.z;
                     odom_tf.transform.rotation = gt_in_odom.orientation;
-                    br.sendTransform(odom_tf);
+                    br_odom.sendTransform(odom_tf);
                 }
             }
             else{
@@ -107,7 +118,8 @@ private:
     bool start_bc_;
     bool active_nav_flag_;
     std::string parent_frame_;
-    std::string child_frame_;
+    std::string odom_frame_;
+    std::string map_frame_;
     std::string gt_in_odom_tp_;
     std::string base_frame_;
     nav_msgs::OdometryPtr initial_odom_ps_;
