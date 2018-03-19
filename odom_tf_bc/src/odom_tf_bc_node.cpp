@@ -31,7 +31,7 @@ public:
     void broadcastOdomTf(){
         ros::Rate rate(30.0);
         tf::TransformBroadcaster br_odom;
-        tf::Transform tf_world_odom;
+        tf::Transform tf_odom_map;
         tf::TransformBroadcaster br_map;
         tf::Transform tf_world_map;
         
@@ -45,8 +45,8 @@ public:
             if(start_bc_){
                 // Construct transform world --> map
                 tf_world_map.setOrigin(tf::Vector3(initial_odom_ps_->pose.pose.position.x,
-                                                    initial_odom_ps_->pose.pose.position.y,
-                                                    initial_odom_ps_->pose.pose.position.z));
+                                                   initial_odom_ps_->pose.pose.position.y,
+                                                   initial_odom_ps_->pose.pose.position.z));
                 tf::Quaternion q_auv;
                 tf::quaternionMsgToTF(initial_odom_ps_->pose.pose.orientation, q_auv);
                 tf_world_map.setRotation(q_auv);
@@ -59,14 +59,15 @@ public:
                                                                               map_frame_);
                 br_map.sendTransform(tf_world_map_stp);
 
-                // Construct transform world --> odom and broadcast (by now, same pose than map frame)
-                tf::StampedTransform tf_world_odom_stp = tf::StampedTransform(tf_world_map,
-                                                                              ros::Time::now(),
-                                                                              map_frame_,
-                                                                              odom_frame_);
-                br_odom.sendTransform(tf_world_odom_stp);
+                // Construct transform map --> odom and broadcast (by now, same pose than map frame)
+//                tf_odom_map = tf::Transform(tf::Quaternion(0,0,0,1), tf::Vector3(0,0,0));
+//                tf::StampedTransform tf_map_odom_stp = tf::StampedTransform(tf_odom_map,
+//                                                                              ros::Time::now(),
+//                                                                              map_frame_,
+//                                                                              odom_frame_);
+//                br_odom.sendTransform(tf_map_odom_stp);
 
-                // Provide ground truth pose in odom frame
+                // Provide ground truth pose in map frame
                 gt_msg = gt_readings_.back();
 
                 tf::poseMsgToTF(gt_msg->pose.pose, gt_world);
@@ -74,16 +75,16 @@ public:
                 tf::poseTFToMsg(gt_odom, gt_in_odom);
 
                 gt_in_odom_msg.header.stamp = gt_msg->header.stamp;
-                gt_in_odom_msg.header.frame_id = odom_frame_;
+                gt_in_odom_msg.header.frame_id = map_frame_;
                 gt_in_odom_msg.child_frame_id = base_frame_;
                 gt_in_odom_msg.pose.pose = gt_in_odom;
                 gt_odom_pub_.publish(gt_in_odom_msg);
 
-                // If no active navigation nodes, broadcast tf odom --> base_link
+                // If no active navigation nodes, broadcast tf map --> base_link
                 if(!active_nav_flag_){
                     geometry_msgs::TransformStamped odom_tf;
                     odom_tf.header.stamp = gt_msg->header.stamp;
-                    odom_tf.header.frame_id = odom_frame_;
+                    odom_tf.header.frame_id = map_frame_;
                     odom_tf.child_frame_id = base_frame_;
                     odom_tf.transform.translation.x = gt_in_odom.position.x;
                     odom_tf.transform.translation.y = gt_in_odom.position.y;
@@ -93,7 +94,7 @@ public:
                 }
             }
             else{
-                ROS_DEBUG("Tf world --> odom not being broadcasted");
+                ROS_DEBUG("Tf world --> map not being broadcasted");
             }
             rate.sleep();
         }
