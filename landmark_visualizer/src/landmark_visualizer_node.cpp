@@ -47,7 +47,7 @@ public:
             int id = 0;
             for(auto landmark_name: world_prop_srv.response.model_names){
                 // Get poses of all objects except basic setup
-                if(landmark_name != "lolo_auv" && landmark_name != "ned" && landmark_name != "ocean" && landmark_name != "dummy_laser"){
+                if(landmark_name != "pipe_line" && landmark_name != "lolo_auv" && landmark_name != "ned" && landmark_name != "ocean" && landmark_name != "dummy_laser"){
                     landmark_state_srv.request.model_name = landmark_name;
                     if(landmarks_client_.call(landmark_state_srv)){
                         // Test map in world frame. Only for visualization
@@ -141,8 +141,8 @@ public:
     }
 
 private:
-    ros::NodeHandle* nh_;
     std::string node_name_;
+    ros::NodeHandle* nh_;
     std::string lm_srv_name_;
     std::string map_srv_name_;
     std::vector<Eigen::Vector4d> map_world_;
