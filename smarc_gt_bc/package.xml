@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <package format="2">
-  <name>odom_tf_bc</name>
+  <name>smarc_gt_bc</name>
   <version>0.0.0</version>
-  <description>The odom_tf_bc package</description>
+  <description>The ground truth bc package</description>
 
   <!-- One maintainer tag required, multiple allowed, one person per tag -->
   <!-- Example:  -->
