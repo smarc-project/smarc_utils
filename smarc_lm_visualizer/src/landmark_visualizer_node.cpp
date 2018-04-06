@@ -6,7 +6,7 @@
 #include "gazebo_msgs/GetModelState.h"
 #include "visualization_msgs/MarkerArray.h"
 #include <geometry_msgs/PoseArray.h>
-#include "landmark_visualizer/init_map.h"
+#include "smarc_lm_visualizer/init_map.h"
 #include <geometry_msgs/Point.h>
 #include <geometry_msgs/Pose.h>
 #include <geometry_msgs/Quaternion.h>
@@ -86,8 +86,8 @@ public:
 
     }
 
-    bool map_service_cb(landmark_visualizer::init_mapRequest &req,
-                        landmark_visualizer::init_mapResponse &res){
+    bool map_service_cb(smarc_lm_visualizer::init_mapRequest &req,
+                        smarc_lm_visualizer::init_mapResponse &res){
 
 //        ROS_INFO_NAMED(node_name_, "Map provider service called");
         if(req.request_map == true){

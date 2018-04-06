@@ -130,7 +130,7 @@ add_executable(landmark_visualizer_node src/landmark_visualizer_node.cpp)
 
 add_dependencies(landmark_visualizer_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
-target_link_libraries(${PROJECT_NAME}_node
+target_link_libraries(landmark_visualizer_node
   ${catkin_LIBRARIES}
 )
 
