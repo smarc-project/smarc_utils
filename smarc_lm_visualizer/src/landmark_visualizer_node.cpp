@@ -46,8 +46,14 @@ public:
         if(gazebo_client_.call(world_prop_srv)){
             int id = 0;
             for(auto landmark_name: world_prop_srv.response.model_names){
+                if(landmark_name.substr(0, landmark_name.find(delimiter)) == "lolo_auv"){
+                    continue;
+                }
+                if(landmark_name.substr(0, landmark_name.find(delimiter)) == "sam_auv"){
+                    continue;
+                }
                 // Get poses of all objects except basic setup
-                if(landmark_name != "pipe_line" && landmark_name != "lolo_auv" && landmark_name != "ned" && landmark_name != "ocean" && landmark_name != "dummy_laser"){
+                if(landmark_name != "pipe_line" && landmark_name != "ned" && landmark_name != "ocean" && landmark_name != "dummy_laser"){
                     landmark_state_srv.request.model_name = landmark_name;
                     if(landmarks_client_.call(landmark_state_srv)){
                         // Test map in world frame. Only for visualization

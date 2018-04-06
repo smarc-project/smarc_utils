@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8.3)
-project(landmark_visualizer)
+project(smarc_lm_visualizer)
 
 include(CheckCXXCompilerFlag)
 CHECK_CXX_COMPILER_FLAG("-std=c++14" COMPILER_SUPPORTS_CXX14)

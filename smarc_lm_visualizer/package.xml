@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <package format="2">
-  <name>landmark_visualizer</name>
+  <name>smarc_lm_visualizer</name>
   <version>0.0.0</version>
   <description>The landmark_visualizer package</description>
 
