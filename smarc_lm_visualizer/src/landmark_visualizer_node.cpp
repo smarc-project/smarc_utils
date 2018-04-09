@@ -75,7 +75,7 @@ public:
             ROS_WARN("Couldn't fetch world from Gazebo");
         }
 
-        map_server_ = nh_->advertiseService("/lolo_auv/map_server", &LandmarkVisualizer::map_service_cb, this);
+        map_server_ = nh_->advertiseService("/rviz/map_server", &LandmarkVisualizer::map_service_cb, this);
 
         ros::Rate r(10);
         while(ros::ok()){
