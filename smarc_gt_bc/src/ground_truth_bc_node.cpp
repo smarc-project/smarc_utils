@@ -29,7 +29,7 @@ public:
 
         tf::TransformListener tf_listener;
         try {
-            tf_listener.waitForTransform(map_frame_, world_frame_, ros::Time(0), ros::Duration(10));
+            tf_listener.waitForTransform(map_frame_, world_frame_, ros::Time(0), ros::Duration(100));
             tf_listener.lookupTransform(map_frame_, world_frame_, ros::Time(0), tf_map_world_);
             ROS_INFO("Locked transform sensor --> frame");
         }

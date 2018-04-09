@@ -1,45 +1,23 @@
 <launch>
 
+	<!-- AUV model -->
 	<arg name="namespace" default="lolo_auv"/>
-	<!-- <arg name="type" default="2"/> -->
+	<!-- Index of the AUV to be launched -->
+	<arg name="number" default="3"/>
+	<!-- Use the navigation stack or the GT from Gazebo -->
 	<arg name="navigation_on" default="true"/>
 
-    <!-- Launch AUV _1 -->
-    <!-- Instantiate this file as many times as AUVs are to be launched -->
+    <!-- Launch AUV -->
 	<include file="$(find smarc_private_auvs)/models/$(arg namespace)/launch/upload_$(arg namespace).launch">
-		<!-- Change the final digit according to the AUV number-->
-		<arg name="namespace" value="$(arg namespace)_1"/>
-		<!-- Initial position of the AUV -->
+		<arg name="namespace" value="$(arg namespace)_$(arg number)"/>
+		<arg name="navigation_on" value="$(arg navigation_on)"/>
+		<!-- Initial pose of the AUV -->
 		<arg name="x" value="10"/>
-		<arg name="y" value="10"/>
-		<arg name="z" value="-90.0"/>
-		<arg name="roll" value="0.0"/>
-  		<arg name="pitch" value="0.0"/>
-		<arg name="yaw" value="0.0"/>
-	</include>
-
-    <!-- Launch manual controller _1 -->
-	<node pkg="smarc_keyboard_teleop" type="$(arg namespace)_teleop.py" name="$(arg namespace)_1_teleop" output="screen">
-		<param name="auv_instance" value="/$(arg namespace)_1"/>
-	</node>
-
-	<!-- Launch AUV _2 -->
-    <!-- Instantiate this file as many times as AUVs are to be launched -->
-	<!-- <include file="$(find smarc_private_auvs)/models/$(arg namespace)/launch/upload_$(arg namespace).launch"> -->
-		<!-- Change the final digit according to the AUV number-->
-		<!-- <arg name="namespace" value="$(arg namespace)_2"/> -->
-		<!-- Initial position of the AUV -->
-		<!-- <arg name="x" value="10"/>
 		<arg name="y" value="20"/>
 		<arg name="z" value="-90.0"/>
 		<arg name="roll" value="0.0"/>
   		<arg name="pitch" value="0.0"/>
 		<arg name="yaw" value="0.0"/>
-	</include> -->
-
-    <!-- Launch manual controller _2 -->
-	<!-- <node pkg="smarc_keyboard_teleop" type="$(arg namespace)_teleop.py" name="$(arg namespace)_2_teleop" output="screen">
-		<param name="auv_instance" value="/$(arg namespace)_2"/>
-	</node> -->
+	</include>
 
 </launch>
