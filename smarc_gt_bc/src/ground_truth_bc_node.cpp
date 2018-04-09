@@ -52,6 +52,7 @@ public:
                 gt_msg = gt_readings_.back();
                 tf::poseMsgToTF(gt_msg->pose.pose, gt_world);
                 tf::Pose gt_odom =  tf_map_world_ * gt_world;
+                gt_odom.getRotation().normalize();
                 tf::poseTFToMsg(gt_odom, gt_in_map);
 
                 // Publish GT in map frame
