@@ -26,18 +26,19 @@ class TeleopServer(object):
 	
         self.surface = None
         self.bridge = CvBridge()
+        self.auv_name = rospy.get_param(rospy.get_name() + '/auv_instance', 'lolo_auv')
 
-	thruster0 = rospy.Publisher('/lolo_auv/thrusters/0/input', FloatStamped, queue_size=10)
-	thruster1 = rospy.Publisher('/lolo_auv/thrusters/1/input', FloatStamped, queue_size=10)
-	fin0 = rospy.Publisher('/lolo_auv/fins/1/input', FloatStamped, queue_size=10)
-	fin1 = rospy.Publisher('/lolo_auv/fins/0/input', FloatStamped, queue_size=10)
-	fin2 = rospy.Publisher('/lolo_auv/fins/2/input', FloatStamped, queue_size=10)
-	fin3 = rospy.Publisher('/lolo_auv/fins/3/input', FloatStamped, queue_size=10)
-	fin4 = rospy.Publisher('/lolo_auv/fins/4/input', FloatStamped, queue_size=10)
-	fin5 = rospy.Publisher('/lolo_auv/fins/5/input', FloatStamped, queue_size=10)
-	backfin = rospy.Publisher('/lolo_auv/back_fins/0/input', FloatStamped, queue_size=10)
+	thruster0 = rospy.Publisher(self.auv_name + '/thrusters/0/input', FloatStamped, queue_size=10)
+	thruster1 = rospy.Publisher(self.auv_name + '/thrusters/1/input', FloatStamped, queue_size=10)
+	fin0 = rospy.Publisher(self.auv_name + '/fins/1/input', FloatStamped, queue_size=10)
+	fin1 = rospy.Publisher(self.auv_name + '/fins/0/input', FloatStamped, queue_size=10)
+	fin2 = rospy.Publisher(self.auv_name + '/fins/2/input', FloatStamped, queue_size=10)
+	fin3 = rospy.Publisher(self.auv_name + '/fins/3/input', FloatStamped, queue_size=10)
+	fin4 = rospy.Publisher(self.auv_name + '/fins/4/input', FloatStamped, queue_size=10)
+	fin5 = rospy.Publisher(self.auv_name + '/fins/5/input', FloatStamped, queue_size=10)
+	backfin = rospy.Publisher(self.auv_name + '/back_fins/0/input', FloatStamped, queue_size=10)
 
-	rospy.Subscriber("/lolo_auv/lolo_auv/camera_thruster/camera_image", Image, self.callback)
+	rospy.Subscriber(self.auv_name + self.auv_name + "/camera_thruster/camera_image", Image, self.callback)
 
 	screen = pygame.display.set_mode((200, 200))
 	pygame.display.flip()
