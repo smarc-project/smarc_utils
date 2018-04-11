@@ -24,6 +24,11 @@
 	  	<arg name="namespace" value="$(arg namespace)_$(arg number)"/>
 	</include>
 
+	<!-- Planning components  -->
+	<include file="$(find auv_planning)/launch/auv_planning.launch">
+	  	<arg name="namespace" value="$(arg namespace)_$(arg number)"/>
+	</include>
+
 	<!-- AUV -->
 	<include file="$(find smarc_bringup)/launch/auv_model.launch">
 		<arg name="namespace" value="$(arg namespace)"/>

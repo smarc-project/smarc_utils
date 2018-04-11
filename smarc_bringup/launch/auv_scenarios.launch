@@ -1,10 +1,14 @@
 <launch>
 
-	<!-- Mode flags -->
+	<!-- Gazebo environment -->
 	<arg name="gazebo_env" default="random_rocks"/>
+	<!-- Gazebo GUI on/off -->
+    <arg name="gui" default="true"/>
 
 	<!-- Underwater scenario for Gazebo -->
-	<include file="$(find smarc_worlds)/launch/$(arg gazebo_env).launch"/>
+	<include file="$(find smarc_worlds)/launch/$(arg gazebo_env).launch">
+		<arg name="gui" value="$(arg gui)"/>
+	</include>
 
     <!-- Publishes objects populations the Gazebo scenario on RVIZ for visualization -->
     <node pkg="smarc_lm_visualizer" name="landmark_visualizer_node" type="landmark_visualizer_node" output="screen">
