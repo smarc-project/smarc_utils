@@ -2,8 +2,6 @@
 
 	<!-- Mode flags -->
 	<arg name="gazebo_env" default="random_rocks"/>
-	<arg name="namespace" default="lolo_auv"/>
-	<arg name="navigation_on" default="true"/>
 
 	<!-- Underwater scenario for Gazebo -->
 	<include file="$(find smarc_worlds)/launch/$(arg gazebo_env).launch"/>
