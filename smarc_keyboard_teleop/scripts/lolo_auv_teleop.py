@@ -38,7 +38,7 @@ class TeleopServer(object):
 	fin5 = rospy.Publisher(self.auv_name + '/fins/5/input', FloatStamped, queue_size=10)
 	backfin = rospy.Publisher(self.auv_name + '/back_fins/0/input', FloatStamped, queue_size=10)
 
-	rospy.Subscriber(self.auv_name + self.auv_name + "/camera_thruster/camera_image", Image, self.callback)
+	rospy.Subscriber(self.auv_name + "/" + self.auv_name + "/camera_thruster/camera_image", Image, self.callback)
 
 	screen = pygame.display.set_mode((200, 200))
 	pygame.display.flip()
