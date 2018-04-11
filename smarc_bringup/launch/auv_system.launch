@@ -29,12 +29,12 @@
 		<arg name="namespace" value="$(arg namespace)"/>
 		<arg name="number" value="$(arg number)"/>
 		<arg name="navigation_on" value="$(arg navigation_on)"/>
-		<arg name="x" value="0"/>
-		<arg name="y" value="0"/>
-		<arg name="z" value="-90.0"/>
-		<arg name="roll" value="0.0"/>
-  		<arg name="pitch" value="0.0"/>
-		<arg name="yaw" value="0.0"/>
+		<arg name="x" value="$(arg x)"/>
+		<arg name="y" value="$(arg y)"/>
+		<arg name="z" value="$(arg z)"/>
+		<arg name="roll" value="$(arg roll)"/>
+  		<arg name="pitch" value="$(arg pitch)"/>
+		<arg name="yaw" value="$(arg yaw)"/>
 	</include>
 
 </launch>
