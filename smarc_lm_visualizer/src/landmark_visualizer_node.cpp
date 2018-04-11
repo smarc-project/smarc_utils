@@ -6,7 +6,7 @@
 #include "gazebo_msgs/GetModelState.h"
 #include "visualization_msgs/MarkerArray.h"
 #include <geometry_msgs/PoseArray.h>
-#include "landmark_visualizer/init_map.h"
+#include "smarc_lm_visualizer/init_map.h"
 #include <geometry_msgs/Point.h>
 #include <geometry_msgs/Pose.h>
 #include <geometry_msgs/Quaternion.h>
@@ -46,8 +46,14 @@ public:
         if(gazebo_client_.call(world_prop_srv)){
             int id = 0;
             for(auto landmark_name: world_prop_srv.response.model_names){
+                if(landmark_name.substr(0, landmark_name.find(delimiter)) == "lolo_auv"){
+                    continue;
+                }
+                if(landmark_name.substr(0, landmark_name.find(delimiter)) == "sam_auv"){
+                    continue;
+                }
                 // Get poses of all objects except basic setup
-                if(landmark_name != "lolo_auv" && landmark_name != "ned" && landmark_name != "ocean" && landmark_name != "dummy_laser"){
+                if(landmark_name != "pipe_line" && landmark_name != "ned" && landmark_name != "ocean" && landmark_name != "dummy_laser"){
                     landmark_state_srv.request.model_name = landmark_name;
                     if(landmarks_client_.call(landmark_state_srv)){
                         // Test map in world frame. Only for visualization
@@ -69,7 +75,7 @@ public:
             ROS_WARN("Couldn't fetch world from Gazebo");
         }
 
-        map_server_ = nh_->advertiseService("/lolo_auv/map_server", &LandmarkVisualizer::map_service_cb, this);
+        map_server_ = nh_->advertiseService("/rviz/map_server", &LandmarkVisualizer::map_service_cb, this);
 
         ros::Rate r(10);
         while(ros::ok()){
@@ -80,8 +86,8 @@ public:
 
     }
 
-    bool map_service_cb(landmark_visualizer::init_mapRequest &req,
-                        landmark_visualizer::init_mapResponse &res){
+    bool map_service_cb(smarc_lm_visualizer::init_mapRequest &req,
+                        smarc_lm_visualizer::init_mapResponse &res){
 
 //        ROS_INFO_NAMED(node_name_, "Map provider service called");
         if(req.request_map == true){
@@ -141,8 +147,8 @@ public:
     }
 
 private:
-    ros::NodeHandle* nh_;
     std::string node_name_;
+    ros::NodeHandle* nh_;
     std::string lm_srv_name_;
     std::string map_srv_name_;
     std::vector<Eigen::Vector4d> map_world_;
