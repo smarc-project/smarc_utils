@@ -17,9 +17,9 @@ You could run RVIZ from here to visualize the environment
 
 ### 2. Launch the AUV and its system components
 The `auv_system.launch` file has three flags so far:
-- namespace: name of the AUV model. So far only lolo_auv is available.
-- number: instance of the AUV to be launched. As many as desired from 0 onwards without repeating names.
-- navigation_on: run the navigation stack or use the ground truth pose provided by Gazebo.
+- `namespace`: name of the AUV model. So far only lolo_auv is available.
+- `number`: instance of the AUV to be launched. As many as desired from 0 onwards without repeating names.
+- `navigation_on`: run the navigation stack or use the ground truth pose provided by Gazebo.
 
 And also the initial pose of the AUV as input
 
