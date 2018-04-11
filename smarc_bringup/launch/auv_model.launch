@@ -3,21 +3,34 @@
 	<!-- AUV model -->
 	<arg name="namespace" default="lolo_auv"/>
 	<!-- Index of the AUV to be launched -->
-	<arg name="number" default="3"/>
+	<arg name="number" default="1"/>
 	<!-- Use the navigation stack or the GT from Gazebo -->
 	<arg name="navigation_on" default="true"/>
+
+	<!-- Initial pose of the AUV -->
+	<arg name="x" default="30"/>
+	<arg name="y" default="0"/>
+	<arg name="z" default="-90"/>
+	<arg name="roll" default="0.0"/>
+	<arg name="pitch" default="0.0"/>
+	<arg name="yaw" default="0.0"/>
 
     <!-- Launch AUV -->
 	<include file="$(find smarc_private_auvs)/models/$(arg namespace)/launch/upload_$(arg namespace).launch">
 		<arg name="namespace" value="$(arg namespace)_$(arg number)"/>
 		<arg name="navigation_on" value="$(arg navigation_on)"/>
 		<!-- Initial pose of the AUV -->
-		<arg name="x" value="10"/>
-		<arg name="y" value="20"/>
-		<arg name="z" value="-90.0"/>
-		<arg name="roll" value="0.0"/>
-  		<arg name="pitch" value="0.0"/>
-		<arg name="yaw" value="0.0"/>
+		<arg name="x" value="$(arg x)"/>
+		<arg name="y" value="$(arg y)"/>
+		<arg name="z" value="$(arg z)"/>
+		<arg name="roll" value="$(arg roll)"/>
+  		<arg name="pitch" value="$(arg pitch)"/>
+		<arg name="yaw" value="$(arg yaw)"/>
 	</include>
+
+    <!-- Manual controller -->
+	<node pkg="smarc_keyboard_teleop" type="lolo_auv_teleop.py" name="$(arg namespace)_$(arg number)_teleop" output="screen">
+		<param name="auv_instance" value="$(arg namespace)_$(arg number)"/>
+	</node>
 
 </launch>

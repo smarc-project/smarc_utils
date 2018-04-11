@@ -1,0 +1,40 @@
+<launch>
+
+	<!-- AUV model -->
+	<arg name="namespace" default="lolo_auv"/>
+	<!-- Index of the AUV to be launched -->
+	<arg name="number" default="1"/>
+	<!-- Use the navigation stack or the GT from Gazebo -->
+	<arg name="navigation_on" default="true"/>
+	<!-- Initial pose of the AUV -->
+	<arg name="x" default="30"/>
+	<arg name="y" default="0"/>
+	<arg name="z" default="-90"/>
+	<arg name="roll" default="0.0"/>
+	<arg name="pitch" default="0.0"/>
+	<arg name="yaw" default="0.0"/>
+
+	<!-- Control components -->
+	<include file="$(find auv_controllers)/launch/auv_controllers.launch">
+	  	<arg name="namespace" value="$(arg namespace)_$(arg number)"/>
+	</include>
+
+	<!-- Perception components  -->
+	<include file="$(find auv_sensors)/launch/auv_sensors.launch">
+	  	<arg name="namespace" value="$(arg namespace)_$(arg number)"/>
+	</include>
+
+	<!-- AUV -->
+	<include file="$(find smarc_bringup)/launch/auv_model.launch">
+		<arg name="namespace" value="$(arg namespace)"/>
+		<arg name="number" value="$(arg number)"/>
+		<arg name="navigation_on" value="$(arg navigation_on)"/>
+		<arg name="x" value="0"/>
+		<arg name="y" value="0"/>
+		<arg name="z" value="-90.0"/>
+		<arg name="roll" value="0.0"/>
+  		<arg name="pitch" value="0.0"/>
+		<arg name="yaw" value="0.0"/>
+	</include>
+
+</launch>
