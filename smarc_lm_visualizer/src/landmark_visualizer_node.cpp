@@ -119,7 +119,7 @@ public:
             markers.header.stamp = ros::Time();
             markers.ns = "map_array";
             markers.id = landmark(0);
-            markers.type = visualization_msgs::Marker::CUBE;
+            markers.type = visualization_msgs::Marker::MESH_RESOURCE;
             markers.action = visualization_msgs::Marker::ADD;
             markers.pose.position.x = landmark(1);
             markers.pose.position.y = landmark(2);
@@ -135,6 +135,7 @@ public:
             markers.color.r = 0.0;
             markers.color.g = 1.0;
             markers.color.b = 0.0;
+            markers.mesh_resource = "package://smarc_worlds/world_models/large_rock/meshes/large_rock.dae";
 
             marker_array.markers.push_back(markers);
         }
