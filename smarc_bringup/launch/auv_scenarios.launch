@@ -1,7 +1,8 @@
 <launch>
 
 	<!-- Gazebo environment -->
-	<arg name="gazebo_env" default="random_rocks"/>
+	<arg name="gazebo_env" default="pipe_following"/>
+
 	<!-- Gazebo GUI on/off -->
     <arg name="gui" default="true"/>
 
@@ -16,4 +17,4 @@
 		<param name="landmarks_srv" value="/gazebo/get_model_state"/>
     </node>
 
-</launch>
+    </launch>
