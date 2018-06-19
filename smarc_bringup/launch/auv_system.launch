@@ -7,13 +7,13 @@
 	<!-- Use the navigation stack or the GT from Gazebo -->
 	<arg name="navigation_on" default="true"/>
 	<!-- Initial pose of the AUV -->
-	<arg name="x" default="30"/>
-	<arg name="y" default="0"/>
-	<arg name="z" default="-90"/>
+	<arg name="x" default="244.3"/>
+	<arg name="y" default="-22.4"/>
+	<arg name="z" default="-91.0"/>
+	<arg name="yaw" default="3.0"/>
 	<arg name="roll" default="0.0"/>
 	<arg name="pitch" default="0.0"/>
-	<arg name="yaw" default="0.0"/>
-
+	
 	<!-- Control components -->
 	<include file="$(find auv_controllers)/launch/auv_controllers.launch">
 	  	<arg name="namespace" value="$(arg namespace)_$(arg number)"/>

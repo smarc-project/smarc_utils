@@ -1,7 +1,8 @@
 <launch>
 
 	<!-- Gazebo environment -->
-	<arg name="gazebo_env" default="random_rocks"/>
+	<arg name="gazebo_env" default="pipe_following"/>
+
 	<!-- Gazebo GUI on/off -->
     <arg name="gui" default="true"/>
 
@@ -14,6 +15,8 @@
     <node pkg="smarc_lm_visualizer" name="landmark_visualizer_node" type="landmark_visualizer_node" output="screen">
     	<param name="map_srv" value="/gazebo/get_world_properties"/>
 		<param name="landmarks_srv" value="/gazebo/get_model_state"/>
+		<param name="landmark_mesh" value="package://smarc_worlds/world_models/large_rock/meshes/large_rock.dae"/>
+
     </node>
 
 </launch>

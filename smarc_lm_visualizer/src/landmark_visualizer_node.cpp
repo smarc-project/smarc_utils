@@ -18,6 +18,7 @@ public:
 
         nh_->param<std::string>((node_name_ + "/map_srv"), map_srv_name_, "/gazebo/get_world_properties");
         nh_->param<std::string>((node_name_ + "/landmarks_srv"), lm_srv_name_, "/gazebo/get_model_state");
+        nh_->param<std::string>((node_name_ + "/landmark_mesh"), lm_mesh_, "package://smarc_worlds/world_models/large_rock/meshes/large_rock.dae");
 
         // Build world map from Gazebo
         gazebo_client_ = nh_->serviceClient<gazebo_msgs::GetWorldProperties>(map_srv_name_);
@@ -119,7 +120,7 @@ public:
             markers.header.stamp = ros::Time();
             markers.ns = "map_array";
             markers.id = landmark(0);
-            markers.type = visualization_msgs::Marker::CUBE;
+            markers.type = visualization_msgs::Marker::MESH_RESOURCE;
             markers.action = visualization_msgs::Marker::ADD;
             markers.pose.position.x = landmark(1);
             markers.pose.position.y = landmark(2);
@@ -135,6 +136,7 @@ public:
             markers.color.r = 0.0;
             markers.color.g = 1.0;
             markers.color.b = 0.0;
+            markers.mesh_resource = lm_mesh_;
 
             marker_array.markers.push_back(markers);
         }
@@ -148,6 +150,7 @@ public:
 
 private:
     std::string node_name_;
+
     ros::NodeHandle* nh_;
     std::string lm_srv_name_;
     std::string map_srv_name_;
@@ -157,6 +160,7 @@ private:
     ros::ServiceClient landmarks_client_;
     ros::Publisher vis_pub_;
     ros::ServiceServer map_server_;
+    std::string lm_mesh_;
 
 };
 
