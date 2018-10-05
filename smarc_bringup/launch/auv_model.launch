@@ -5,7 +5,7 @@
 	<!-- Index of the AUV to be launched -->
 	<arg name="number" default="1"/>
 	<!-- Use the navigation stack or the GT from Gazebo -->
-	<arg name="navigation_on" default="true"/>
+	<arg name="navigation_on" default="false"/>
 
 	<!-- Initial pose of the AUV -->
 	<arg name="x" default="30"/>
@@ -29,8 +29,10 @@
 	</include>
 
     <!-- Manual controller -->
+    <!--
 	<node pkg="smarc_keyboard_teleop" type="lolo_auv_teleop.py" name="$(arg namespace)_$(arg number)_teleop" output="screen">
 		<param name="auv_instance" value="$(arg namespace)_$(arg number)"/>
 	</node>
+    -->
 
 </launch>
