@@ -28,6 +28,10 @@
 		<arg name="yaw" value="$(arg yaw)"/>
 	</include>
 
+	<node pkg="smarc_gz_model_cleaner" type="gz_models_cleaner.py" name="$(arg namespace)_$(arg number)_model_cleaner" output="screen">
+		<param name="auv_instance" value="$(arg namespace)_$(arg number)"/>
+	</node>
+
     <!-- Manual controller -->
     <!--
 	<node pkg="smarc_keyboard_teleop" type="lolo_auv_teleop.py" name="$(arg namespace)_$(arg number)_teleop" output="screen">
