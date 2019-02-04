@@ -27,14 +27,14 @@ class TeleopServer(object):
         self.surface = None
         self.bridge = CvBridge()
 
-	thruster1 = rospy.Publisher('/sam_auv/thrusters/0/input', FloatStamped, queue_size=10)
-	thruster2 = rospy.Publisher('/sam_auv/thrusters/1/input', FloatStamped, queue_size=10)
-	joint_z = rospy.Publisher('/sam_auv/joint1_position_controller/command', Float64, queue_size=10)
-	joint_y = rospy.Publisher('/sam_auv/joint2_position_controller/command', Float64, queue_size=10)
-	#fin2 = rospy.Publisher('/sam_auv/fins/2/input', FloatStamped, queue_size=10)
-	#fin3 = rospy.Publisher('/sam_auv/fins/3/input', FloatStamped, queue_size=10)
+	thruster1 = rospy.Publisher('/sam_auv_1/thrusters/0/input', FloatStamped, queue_size=10)
+	thruster2 = rospy.Publisher('/sam_auv_1/thrusters/1/input', FloatStamped, queue_size=10)
+	joint_z = rospy.Publisher('/sam_auv_1/joint1_position_controller/command', Float64, queue_size=10)
+	joint_y = rospy.Publisher('/sam_auv_1/joint2_position_controller/command', Float64, queue_size=10)
+	#fin2 = rospy.Publisher('/sam_auv_1/fins/2/input', FloatStamped, queue_size=10)
+	#fin3 = rospy.Publisher('/sam_auv_1/fins/3/input', FloatStamped, queue_size=10)
 
-	rospy.Subscriber("/sam_auv/sam_auv/camera_thruster/camera_image", Image, self.callback)
+	rospy.Subscriber("/sam_auv_1/sam_auv_1/camera_thruster/camera_image", Image, self.callback)
 
 	screen = pygame.display.set_mode((200, 200))
 	pygame.display.flip()
