@@ -59,8 +59,7 @@ class TeleopServer(object):
 	while not rospy.is_shutdown():
 
 	    if self.surface is not None:
-	    	print "hola"
-		screen.blit(self.surface, (0, 0))
+	    	screen.blit(self.surface, (0, 0))
 	    pygame.display.update()
 
 	    keys = pygame.key.get_pressed()
