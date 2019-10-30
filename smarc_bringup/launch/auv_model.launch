@@ -16,7 +16,7 @@
 	<arg name="yaw" default="0.0"/>
 
     <!-- Launch AUV -->
-	<include file="$(find smarc_private_auvs)/models/$(arg namespace)/launch/upload_$(arg namespace).launch">
+	<include file="$(find lolo_auv_sim)/launch/upload_$(arg namespace).launch">
 		<arg name="namespace" value="$(arg namespace)_$(arg number)"/>
 		<arg name="navigation_on" value="$(arg navigation_on)"/>
 		<!-- Initial pose of the AUV -->
