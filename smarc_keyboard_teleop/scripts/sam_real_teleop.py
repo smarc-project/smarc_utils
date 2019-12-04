@@ -16,7 +16,7 @@ import pygame
 from pygame.constants import K_LEFT, K_RIGHT, K_UP, K_DOWN, K_w, K_s, K_z, K_a, K_d, K_m, K_n
 import rospy
 import numpy as np
-from uuv_gazebo_ros_plugins_msgs.msg import FloatStamped
+# from uuv_gazebo_ros_plugins_msgs.msg import FloatStamped
 from std_msgs.msg import Header, Float64, Bool
 from sensor_msgs.msg import Image
 from cv_bridge import CvBridge, CvBridgeError
@@ -43,11 +43,11 @@ class SAMTeleopServer(object):
 		# self.bridge = CvBridge()
 		# rospy.Subscriber("/sam_auv_1/sam_auv_1/camera_thruster/camera_image", Image, self.callback)
 
-		self.thruster_top = rospy.get_param('~rpm_command', '/uavcan_rpm_command')
-		self.vec_top = rospy.get_param('~vec_command', '/uavcan_vector_command')
-		self.vbs_top = rospy.get_param('~vbs_command', '/uavcan_vbs_command')
+		self.thruster_top = rospy.get_param('~rpm_command', '/sam/core/rpm_cmd')
+		self.vec_top = rospy.get_param('~vec_command', '/sam/core/thrust_vector_cmd')
+		self.vbs_top = rospy.get_param('~vbs_command', '/sam/core/vbs_cmd')
 		self.manual_top = rospy.get_param('~manual_top', '/manual_control_on')
-		self.vbs_fb_top = rospy.get_param('~vbs_feedback', '/uavcan_to_ros_bridge_node/vbs_feedback')
+		self.vbs_fb_top = rospy.get_param('~vbs_feedback', '/sam/core/vbs_fb')
 
 		thruster_pub = rospy.Publisher(self.thruster_top, ThrusterRPMs, queue_size=10)
 		vector_pub = rospy.Publisher(self.vec_top, ThrusterAngles, queue_size=10)
@@ -62,7 +62,7 @@ class SAMTeleopServer(object):
 
         	rudder_angle = 0.12
         	altitude_angle = 0.12
-        	thrust_level = 1000.
+        	thrust_level = 500.
         	vbs_step = 10.0
         	manual_mode = False
 
@@ -100,9 +100,11 @@ class SAMTeleopServer(object):
 				# Thrusting
 				if keys[K_w]:
 					thrust.thruster_1_rpm = thrust_level
+					thrust.thruster_2_rpm = thrust_level
 					thruster_pub.publish(thrust)
 				if keys[K_s]:
 					thrust.thruster_1_rpm = -thrust_level
+					thrust.thruster_2_rpm = -thrust_level
 					thruster_pub.publish(thrust)
 
 				# VBS
