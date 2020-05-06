@@ -62,7 +62,7 @@ class SAMTeleopServer(object):
 
         	rudder_angle = 0.12
         	altitude_angle = 0.12
-        	thrust_level = 500.
+        	thrust_level = 1000.
         	vbs_step = 10.0
         	manual_mode = False
 
@@ -108,18 +108,18 @@ class SAMTeleopServer(object):
 					thruster_pub.publish(thrust)
 
 				# VBS
-				if keys[K_a]:
-					vbs_abs += vbs_step
-					if vbs_abs > 100.0:
-						vbs_abs = 100.0
-					vbs_msg.value = vbs_abs
-					vbs_pub.publish(vbs_msg)
-				if keys[K_d]:
-					vbs_abs -= vbs_step
-					if vbs_abs < 0.0:
-						vbs_abs = 0.0
-					vbs_msg.value = vbs_abs
-					vbs_pub.publish(vbs_msg)
+				#  if keys[K_a]:
+					#  vbs_abs += vbs_step
+					#  if vbs_abs > 100.0:
+						#  vbs_abs = 100.0
+					#  vbs_msg.value = vbs_abs
+					#  vbs_pub.publish(vbs_msg)
+				#  if keys[K_d]:
+					#  vbs_abs -= vbs_step
+					#  if vbs_abs < 0.0:
+						#  vbs_abs = 0.0
+					#  vbs_msg.value = vbs_abs
+					#  vbs_pub.publish(vbs_msg)
 
 			if keys[K_n]:
 				manual_mode = False
