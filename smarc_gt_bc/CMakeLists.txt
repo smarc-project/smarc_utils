@@ -14,6 +14,7 @@ find_package(catkin REQUIRED COMPONENTS
   roscpp
   rospy
   tf
+  nav_msgs
 )
 
 catkin_package(
