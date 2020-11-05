@@ -11,7 +11,6 @@ set(CMAKE_CXX_FLAGS "-Wall -Wextra -pedantic -std=c++11")
 find_package(catkin REQUIRED COMPONENTS
   roscpp
   sam_msgs
-  smarc_msgs
   std_msgs
   message_runtime
 )
@@ -73,7 +72,7 @@ find_package(catkin REQUIRED COMPONENTS
 ## Generate added messages and services with any dependencies listed here
 # generate_messages(
 #   DEPENDENCIES
-#   sam_msgs#   smarc_msgs#   std_msgs
+#   sam_msgs#   std_msgs
 # )
 
 ################################################
@@ -108,7 +107,7 @@ find_package(catkin REQUIRED COMPONENTS
 catkin_package(
 #  INCLUDE_DIRS include
 #  LIBRARIES message_joiner
- CATKIN_DEPENDS roscpp sam_msgs smarc_msgs std_msgs
+ CATKIN_DEPENDS roscpp sam_msgs std_msgs
 #  DEPENDS system_lib
 )
 
