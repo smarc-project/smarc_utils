@@ -1,0 +1,20 @@
+<launch>
+
+<!-- <arg name="joiner_publish_frequency" default="2"/> -->
+<arg name="robot_name" default="sam"/>
+
+<group ns="$(arg robot_name)">
+
+    <group ns="core">
+
+        <node name="message_joiner_node" pkg="message_joiner" type="message_joiner" respawn="true" output="screen">
+            <!-- <param name="pub_frequency" value="$(arg joiner_publish_frequency)"/> -->
+            <remap from="circuit_status_array" to="circuit_status_array_fb"/>
+            <remap from="circuit_status" to="circuit_status_fb"/>
+        </node>
+
+    </group>
+
+</group>
+
+</launch>
