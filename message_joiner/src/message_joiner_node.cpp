@@ -59,11 +59,7 @@ int main(int argc, char **argv)
 
   CircuitStatusJoiner2 nc = CircuitStatusJoiner2(&nh);
 
-  while (ros::ok())
-  {
-    ros::spinOnce();
-  }
-
+  ros::spin();
 
   return 0;
 }
