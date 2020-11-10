@@ -105,7 +105,6 @@ public:
 
 //        ROS_INFO_NAMED(node_name_, "Map provider service called");
         if(req.request_map == true){
-            int i = 0;
             res.init_map.header.stamp = ros::Time::now();
             res.init_map.header.frame_id = "world";
             geometry_msgs::Point point;
