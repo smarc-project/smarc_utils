@@ -11,6 +11,7 @@
             <!-- <param name="pub_frequency" value="$(arg joiner_publish_frequency)"/> -->
             <remap from="circuit_status_array" to="circuit_status_array_fb"/>
             <remap from="circuit_status" to="circuit_status_fb"/>
+            <remap from="jetson_diagnostics" to="jetson_diagnostics_fb"/>
         </node>
 
     </group>
