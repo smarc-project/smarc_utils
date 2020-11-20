@@ -12,6 +12,7 @@ find_package(catkin REQUIRED COMPONENTS
   roscpp
   sam_msgs
   std_msgs
+  diagnostic_msgs
   message_runtime
 )
 
