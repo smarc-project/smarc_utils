@@ -92,7 +92,7 @@ def main():
     rospy.init_node('marked_pos_publisher')
     rospy.Rate(1)
 
-    topic_name = '/sim/marked_positions'
+    topic_name = '/sam/sim/marked_positions'
     marked_position_param = '/stonefish_simulator/marked_positions'
     mesh_param = '/stonefish_simulator/mesh'
 
