@@ -92,7 +92,17 @@ def main():
     rospy.init_node('marked_pos_publisher')
     rospy.Rate(1)
 
-    topic_name = '/sim/marked_positions'
+    robot_name_param = '~robot_name'
+    if rospy.has_param(robot_name_param):
+        robot_name = rospy.get_param(robot_name_param)
+        print('Getting robot_name = {} from param server'.format(robot_name))
+    else:
+        robot_name = 'sam'
+        print('{} param not found in param server.\n'
+              'Setting robot_name = {} (default value).'.format(
+                  robot_name_param, robot_name))
+
+    topic_name = '/{}/sim/marked_positions'.format(robot_name)
     marked_position_param = '/stonefish_simulator/marked_positions'
     mesh_param = '/stonefish_simulator/mesh'
 
