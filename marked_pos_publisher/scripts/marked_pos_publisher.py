@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 import re
 import sys
 import rospy
@@ -29,6 +30,8 @@ class MarkedPosPublisher:
     as MarkerArray (can be visualized in RViz)"""
     def __init__(self, topic_name, marked_position_param, mesh_param):
         self.pub = rospy.Publisher(topic_name, MarkerArray, queue_size=2)
+        self.utm_translation = [643800.539, 6459252.079, 0.000]
+        self.utm_orientation = [0.000, 0.000, 0.000]
         self.marked_positions = get_ros_param(marked_position_param)
         self.mesh_xml_paths = get_ros_param(mesh_param)
         self.marker_array = self.generate_marker_array_msg()
@@ -41,8 +44,10 @@ class MarkedPosPublisher:
         position[0], position[1] = position[1], position[0]
         # Stonefish's z-axis points downwards
         position[2] = -position[2]
+        position = [position[i] + self.utm_translation[i] for i in range(3)]
 
         orientation = xml_string_param_to_list(marker_info['orientation'])
+        orientation = [orientation[i] + self.utm_orientation[i] for i in range(3)]
         quaternion = quaternion_from_euler(*orientation)
         pose = Pose(position=Point(*position),
                     orientation=Quaternion(*quaternion))
@@ -63,9 +68,10 @@ class MarkedPosPublisher:
     def generate_marker_msg(self, marker_name, marker_info):
         """Given marker_name and marker_info, return a Marker message"""
         marker = Marker()
-        marker.header.stamp = rospy.Time.now()
-        marker.header.frame_id = 'map'
+        marker.header.stamp = rospy.Time(0)
+        marker.header.frame_id = 'utm'
         marker.ns = marker_name
+
 
         marker.pose = self.parse_marker_pose(marker_info)
         marker.color = self.parse_marker_color(marker_info)
