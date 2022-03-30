@@ -2,8 +2,8 @@
 Changelog for package smarc_gt_bc
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.0.3 (2022-03-30)
+------------------
 * Update package.xml
 * Update CMakeLists.txt
 * Fixed nacho's email

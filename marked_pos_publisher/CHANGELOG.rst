@@ -2,8 +2,8 @@
 Changelog for package marked_pos_publisher
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.0.3 (2022-03-30)
+------------------
 * Merge pull request `#35 <https://github.com/smarc-project/smarc_utils/issues/35>`_ from luxiya01/noetic-devel
   Fetch robot_name from param server if exists
 * String formating with python2 compatible syntax

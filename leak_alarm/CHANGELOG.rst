@@ -2,8 +2,8 @@
 Changelog for package leak_alarm
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.0.3 (2022-03-30)
+------------------
 * Merge pull request `#29 <https://github.com/smarc-project/smarc_utils/issues/29>`_ from nilsbore/test_release
   Release building
 * Added install targets for python scripts

@@ -2,8 +2,8 @@
 Changelog for package message_joiner
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.0.3 (2022-03-30)
+------------------
 * Merge pull request `#32 <https://github.com/smarc-project/smarc_utils/issues/32>`_ from smarc-project/new_topics
   update to new topics
 * update to new topics
