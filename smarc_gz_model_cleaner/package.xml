@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <package format="2">
   <name>smarc_gz_model_cleaner</name>
-  <version>0.0.6</version>
+  <version>0.0.7</version>
   <description>The smarc_gz_model_cleaner package</description>
 
   <!-- One maintainer tag required, multiple allowed, one person per tag -->
