@@ -1,0 +1,18 @@
+<launch>
+
+    <arg name="debug" default="0"/>
+    <arg name="mode" default="default"/>
+    <arg name="namespace" default="cm_station"/>
+    <!-- <arg name="gps_port" value="/dev/ttyACM1"/>
+    <arg name="gps_baud" value="115200"/> -->
+
+    <group ns="$(arg namespace)">
+
+	<group ns="external">
+        	<param name="robot_description"
+            		command="$(find xacro)/xacro '$(find cm_station_description)/robots/cm_station_default.urdf.xacro' debug:=$(arg debug) namespace:=$(arg namespace)"/>
+    	</group>
+       
+    </group>     
+
+</launch>

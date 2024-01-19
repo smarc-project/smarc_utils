@@ -1,0 +1,84 @@
+<launch>
+
+    <!-- <arg name="markerId"        default="105"/> -->
+    <arg name="markerSize"      default="0.14"/>    <!-- in m -->
+    <arg name="marker_frame"    default="aruco_marker_frame"/>
+    <arg name="ref_frame"       default=""/>  <!-- leave empty and the pose will be published wrt param parent_name -->
+    <arg name="corner_refinement" default="LINES" /> <!-- NONE, HARRIS, LINES, SUBPIX -->
+    
+    <arg name="namespace" default="cm_station"/>
+    <arg name="debug" default="0"/>
+    <arg name="mode" default="external"/>
+
+    <!-- <node pkg="spinnaker_camera_driver" name="spinnaker_node" type="camera_node" output="screen">
+    </node> -->
+
+    <!-- <node pkg="aruco_ros" type="single" name="aruco_single" output="screen">
+        <remap from="/image" to="/image_raw" />
+        <remap from="/camera_info" to="/camera_info" />
+        <param name="image_is_rectified" value="false"/>
+        <param name="marker_size"        value="$(arg markerSize)"/>
+        <param name="min_marker_size"        value="0.05"/>
+        <param name="marker_id"          value="$(arg markerId)"/>
+        <param name="reference_frame"    value="camera_link"/>   
+        <param name="camera_frame"       value="camera_link"/>
+        <param name="marker_frame"       value="$(arg marker_frame)" />
+        <param name="corner_refinement"  value="$(arg corner_refinement)" />
+    </node> -->
+
+    <node pkg="image_transport" type="republish" name="decompress_node" args="compressed">
+        <remap from ="in" to="/image_raw"/>
+        <remap from="out" to="/image_decompressed"/>
+    </node>
+
+    <!-- image_transport republish theora in:=/image_raw _image_transport:=compressed out:=/image_decompressed -->
+
+    <node pkg="aruco_ros" type="marker_publisher" name="aruco_marker_publisher" output="screen">
+        <param name="max_correction_rate"       value="30"/> 
+        <remap from="/image" to="/image_decompressed" />
+        <param name="image_is_rectified" value="True"/>
+        <param name="marker_size"        value="$(arg markerSize)"/>
+        <param name="reference_frame"    value="cm_station/base_link"/>
+        <param name="image_is_rectified" value="True"/>
+        <param name="use_camera_info" value="True"/>
+    </node>
+
+
+     <node pkg="image_view" type="image_view" name="image_view" output="screen">
+        <remap from="/image" to="/aruco_marker_publisher/result" />
+    </node>
+
+    <!-- <node pkg="external_cams" name="cam_detections" type="visual_cam.py" output="screen"/> -->
+
+	<group ns="external">
+
+        <param name="cm_station_description"
+                command="$(find xacro)/xacro '$(find cm_station_description)/robots/cm_station_default.urdf.xacro' debug:=$(arg debug) namespace:=$(arg namespace)"/>
+
+        <param name="sam_description"
+            command="$(find xacro)/xacro '$(find sam_description)/robots/sam_auv_$(arg mode).urdf.xacro' debug:=$(arg debug) namespace:=sam" />
+    </group>
+    
+    <node pkg="joint_state_publisher" type="joint_state_publisher" name="joint_state_publisher">
+        <!-- <param name="rate" value="100"/> -->
+        <remap from="robot_description" to="external/cm_station_description"/>
+        <param name="use_gui" value="false"/>
+        <rosparam param="source_list">["command_states"]</rosparam>
+    </node>
+    
+    <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="true" output="screen">
+        <remap from="robot_description" to="external/cm_station_description"/>        
+    </node>
+
+    <node pkg="joint_state_publisher" type="joint_state_publisher" name="sam_joint_state_publisher">
+        <!-- <param name="rate" value="100"/> -->
+        <remap from="robot_description" to="external/sam_description"/>
+        <param name="use_gui" value="false"/>
+        <rosparam param="source_list">["command_states"]</rosparam>
+    </node>
+    
+    <node name="sam_robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="true" output="screen">
+        <remap from="robot_description" to="external/sam_description"/>        
+    </node>
+       
+</launch>
