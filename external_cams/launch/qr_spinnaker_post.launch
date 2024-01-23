@@ -39,6 +39,7 @@
         <param name="image_is_rectified" value="True"/>
         <param name="marker_size"        value="$(arg markerSize)"/>
         <param name="reference_frame"    value="cm_station/base_link"/>
+        <param name="camera_frame"       value="cm_station/uw_cam_link"/>
         <param name="image_is_rectified" value="True"/>
         <param name="use_camera_info" value="True"/>
     </node>
