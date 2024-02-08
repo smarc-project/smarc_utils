@@ -1,0 +1,15 @@
+<launch>
+
+  <arg name="robot_name" default="cams"/>
+  <arg name="broker_addr" default="10.130.0.14"/>
+  <arg name="broker_port" default="1883"/>
+  <!-- If you want to use the local node-red and mqtt brokers: -->
+
+  <node name="cams_mqtt_bridge_node" pkg="mqtt_bridge" type="mqtt_bridge_node.py" output="screen">
+	<rosparam subst_value="true"> mqtt/private_path: "smarc/$(optenv USER nouser)_$(arg robot_name)" </rosparam>
+	<rosparam subst_value="true"> mqtt/connection/host: "$(arg broker_addr)" </rosparam>
+	<rosparam subst_value="true"> mqtt/connection/port: $(arg broker_port) </rosparam>
+    <rosparam file="$(find axis_cams_utils)/config/cam_mqtt_srvr.yaml" command="load" />
+  </node>
+
+</launch>

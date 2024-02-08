@@ -1,0 +1,29 @@
+# this file is given to both mqtt_bridge and waraps_bridge.py as rosparams
+serializer: json:dumps
+deserializer: json:loads
+# serializer: msgpack:dumps
+# deserializer: msgpack:loads
+waraps_tickrate: 2
+mqtt:
+  client:
+    protocol: 4      # MQTTv311
+  connection:
+    # host: localhost # these are set in the launch file, so we could have args from outside
+    # port: 1883
+    keepalive: 60
+bridge:
+    # dont forget to add the ".msg" part!
+    #  the ~ in front will fill with smarc/<robot_name>/ for mqtt
+    #  and this node is run under /<robot_name>/ in ROS, relative topics etc.
+
+  - factory: mqtt_bridge.bridge:RosToMqttBridge
+    msg_type: sensor_msgs.msg:CompressedImage
+    topic_from: /cam_1/image_raw/compressed
+    topic_to: /mqtt/cam_1/image_raw/compressed
+    frequency: 1
+
+
+
+
+
+
